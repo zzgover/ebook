@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Ebook{% endblock %}
+{% block content %}
+    <h2 class="title text-center">{{ category.name }}</h2>
+    {% for p in products %}
+        <div class="col-sm-4">
+        <div class="product-image-wrapper">
+        <div class="single-products">
+            <div class="productinfo text-center">
+                <a href="{% url 'product:product_detail' p.pk %}">
+                    <img src="{{ MEDIA_URL }}{{ p.image }}" width="200px" height="200px" alt=""/>
+            </a>
+                <h2>{{ p.price }}¥</h2>
+                <form action="{% url 'cart:cart_add' p.id %}" method="post" class="form-inline">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        {{ cart_form }}
+                    </div>
+                    <button type="submit" class="btn btn-default">
+                        加入购物车
+                    </button>
+                </form>
+
+                <a href="{% url 'product:product_detail' p.pk %}">
+                    <p>{{ p.name|truncatechars:20 }}</p></a>
+            </div>
+        </div>
+        </div>
+        </div>
+    {% endfor %}
+
+    <!-- 分页 -->
+    <!--加 Bootstrap 样式-->
+    <div class="row center-block">
+        <nav aria-label="Page navigation">
+            <ul class="pagination center-block">
+                {{ page_info.pager|safe }}
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+

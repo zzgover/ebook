@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 购物车{% endblock title %}
+{% block content %}
+    <div class="table table-responsive">
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <td class="image">商品</td>
+                <td class="description">商品名称</td>
+                <td class="price">价格</td>
+                <td class="quantity">数量</td>
+                <td class="total">总价</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                {% with product=item.product %}
+                    <tr>
+                        <td class="cart_product">
+                            <a href=""><img width="110px" height="110px" src="{{ MEDIA_URL }}{{ product.image }}"
+                                            alt=""></a>
+
+                        </td>
+                        <td class="cart_description">
+                            <h4>
+                                <a href="{% url 'product:product_detail' product.id %}">
+                                    {{ product.name|truncatechars:14 }}
+                                </a>
+                            </h4>
+                            <h5>库存：{{ product.stock }}</h5>
+                            {% if product.stock < item.quantity %}
+                                库存不足，请重新选择数量！
+                            {% endif %}
+                        </td>
+                        <td class="cart_price">
+                            <p>{{ product.price }}</p>
+                        </td>
+                        <td class="cart_quantity">
+                            <div class="cart_quantity_button">
+                                <form class="form-inline" action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    <div class="form-group">
+                                        {{ item.update_quantity_form.quantity }}
+                                        {{ item.update_quantity_form.update }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary">
+                                            更新
+
+                                        </button>
+                                    </div>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        </td>
+                        <td class="cart_total">
+                            <p class="cart_total_price">¥{{ item.total_price }}</p>
+                        </td>
+                        <td class="cart_delete">
+                            <a class="cart_quantity_delete" href="{% url 'cart:cart_remove' product.id %}"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>总计：</td>
+                <td></td>
+                <td class="cart_total_price">¥{{ cart.get_total_price }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><a class="btn btn-default check_out" href="{%url 'order:order_created'%}">去结算</a></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

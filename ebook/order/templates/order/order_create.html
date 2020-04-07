@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    确认订单
+{% endblock %}
+{% block content %}
+    <section id="cart_items">
+        <div class="container">
+            <div class="panel panel-default register-req">
+
+                <div class="panel-heading">用户地址信息</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="user_option">
+                                <p>姓名：{{ userprofile.real_name }}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="user_option">
+                                <p>电话号码：{{ userprofile.phone }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 user_option">
+                            <p>邮寄地址：{{ userprofile.address }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">订单详情</div>
+                <div class="panel-body">
+                    <div class="table-responsive cart_info">
+                        <table class="table table-condensed">
+                            <thead>
+
+                            <tr class="cart_menu">
+                                <td class="image">封面</td>
+                                <td>书名</td>
+                                <td class="price">价格</td>
+                                <td class="quantity">数量</td>
+                                <td class="total">总价</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in cart %}
+                                {% with product=item.product %}
+                                    <tr>
+                                        <td class="cart_product">
+                                            <a href=""><img width="110px" height="110px"
+                                                            src="/media/{{ product.image }}" alt="封面"></a>
+                                        </td>
+                                        <td class="cart_description">
+                                            <h4>
+                                                <a href="{% url 'product:product_detail' product.pk %}">
+                                                    {{ product.name|truncatechars:14 }}
+                                                </a>
+                                            </h4>
+                                            <p>库存量：{{ product.stock }}</p>
+                                        </td>
+                                        <td class="cart_price">
+                                            <p>{{ product.price }}</p>
+                                        </td>
+
+                                        <td class="cart_price">
+                                            <p>{{ item.quantity }}</p>
+                                        </td>
+                                        <td class="cart_total">
+                                            <p class="cart_total_price">¥{{ item.total_price }}</p>
+                                        </td>
+                                        <td class="cart_delete">
+                                            <a class="cart_quantity_delete"
+                                               href="{% url 'cart:cart_remove' product.id %}"><i
+                                                    class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endwith %}
+                            {% endfor %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>合计：</td>
+                                <td></td>
+                                <td class="cart_total_price">{{ cart.get_total_price }}</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-options">
+                <div class="row">
+                    <!-- 设置了 col-sm-offset-1，是向右偏移一个单位，总的 col 要减去一个-->
+                    <div class="col-sm-9 col-sm-offset-1">
+                        <p></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-danger" href="#" role="button">
+                            确认订单
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content">
+                <ul class="list-inline item-details">
+                    <li><a href="http://themifycloud.com">Ecommerce templates</a></li>
+                    <li><a href="http://themescloud.org">Ecommerce themes</a></li>
+                </ul>
+            </div>
+        </div>
+    </section> <!--/#cart_items-->
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}注册{% endblock %}
+{% block content %}
+   <div class="container">
+        <div class="row">
+            <div class="col-md-4	col-md-offset-4">
+
+                    <center>
+                        <img class="mb-4" src="{% static 'img/logo.jpg' %}" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal">欢迎加入</h1>
+                    </center>
+                <form action="" method="POST" novalidate><!--这里的 action 的内容可以不写，因为是提交给本网页执行的-->
+                    {% csrf_token %}
+
+
+                    {% for	field in reg_form %}
+                        <div class="form-group">
+
+                            {{ field.label_tag }}{{ field.as_widget }}
+
+
+
+                            {% if	field.errors %}
+                                {% for	error in field.errors %}
+                                    <p class="error">{{ error|escape }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+
+                        <span class="error">{{msg}}</span>
+{#                    {% csrf_token %}#}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock	 %}
+
+
+
+
+{#<div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-md-4	col-md-offset-4">#}
+{#                <form action="" method="post" novalidate>#}
+{##}
+{#                    {% csrf_token %}#}
+{#                    {% for	field in reg_form %}#}
+{#                        <div class="form-group">#}
+{#                            {{field.label_tag}} {{field.as_widget    }}#}
+{#                            {% if	field.errors %}#}
+{#                                {% for	error in field.errors %}#}
+{#                                    <p class="error">{{error|escape}}</p>#}
+{#                                {% endfor %}#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    <button type="submit" class="btn	 btn-default"> 注 册#}
+{#                    </button>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}

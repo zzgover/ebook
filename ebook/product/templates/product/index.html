@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Ebook{% endblock %}
+{% block content %}
+    <div class="col-sm-2 col-xs-6">
+
+        {% for c in categories %}
+            <a href="{% url 'product:product_list' c.id %}">
+                <li class="list-group-item">{{ c.name }}</li>
+            </a>
+        {% endfor %}
+
+    </div>
+
+    <div class="col-sm-10 col-xs-6">
+        <h2 class="title text-center">最新上架</h2>
+        <div class="row">
+            {% for p in products_order %}
+            <div class="col-sm-3 col-xs-6">
+
+                    <img src="{{ MEDIA_URL }}{{ p.image }}" width="200px" height="200px" alt="zzg" />
+                    <h2>{{ p.price }}</h2>
+                    <a href="{% url 'product:product_detail' p.pk %}">
+                        <p>{{ p.name|truncatechars:20 }}</p>
+                    </a>
+
+
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
