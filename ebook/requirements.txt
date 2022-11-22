@@ -7,7 +7,7 @@ idna==2.8
 img==2.5
 jieba==0.39
 oauthlib==3.0.1
-Pillow==5.4.1
+Pillow==9.3.0
 pycryptodomex==3.7.2
 python-alipay-sdk==1.10.1
 python3-openid==3.1.0
